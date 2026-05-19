@@ -2,7 +2,7 @@ using Eventer.Contexts.EventContext.Interfaces;
 
 namespace Eventer.Contexts.EventContext.UseCases
 {
-    public class EventDeleteCase
+    public class EventDeleteCase : IBaseCase
     {
         private readonly IEventRepository _eventRepository;
 

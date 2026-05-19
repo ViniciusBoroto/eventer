@@ -30,6 +30,7 @@ namespace Eventer.Contexts.EventContext.UseCases
                 new BaseStringObject(eventToUpdate.Description);
                 new BaseStringObject(updateEventRequest.Location);
                 new BaseStringObject(updateEventRequest.Date.ToString());
+                new DateObject(updateEventRequest.Date);
             }
             catch (Exception e)
             {
