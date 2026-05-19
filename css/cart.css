@@ -1,0 +1,222 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body{
+  background: #f4f4f4;
+  padding: 30px;
+}
+
+/* NAVBAR */
+
+.navbar{
+  background: #5b21b6;
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 30px;
+
+  border-radius: 20px 20px 0 0;
+}
+
+.back-button{
+  cursor: pointer;
+}
+
+.cart-icon{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* CONTAINER */
+
+.cart-container{
+  background: white;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  gap: 25px;
+
+  padding: 25px;
+
+  border-radius: 0 0 20px 20px;
+}
+
+/* ITENS */
+
+.cart-items{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-card{
+  border: 1px solid #ddd;
+
+  border-radius: 15px;
+
+  padding: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-left{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.card-left img{
+  width: 140px;
+  height: 100px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+}
+
+.event-info{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-info h3{
+  font-size: 30px;
+}
+
+.event-info p{
+  color: #555;
+}
+
+/* QUANTIDADE */
+
+.quantity-box{
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #ccc;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.quantity-box button{
+  width: 40px;
+  height: 40px;
+
+  border: none;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-size: 20px;
+}
+
+.quantity-box span{
+  width: 40px;
+  text-align: center;
+}
+
+/* DIREITA CARD */
+
+.card-right{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.card-price{
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.remove-btn{
+  color: red;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+/* RESUMO */
+
+.summary{
+  border: 1px solid #ddd;
+
+  border-radius: 15px;
+
+  padding: 25px;
+
+  height: fit-content;
+}
+
+.summary h2{
+  margin-bottom: 25px;
+}
+
+.summary-line{
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.total{
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 20px;
+
+  font-size: 30px;
+  font-weight: bold;
+
+  color: #5b21b6;
+}
+
+.payment-button{
+  width: 100%;
+
+  margin-top: 30px;
+
+  border: none;
+
+  background: #5b21b6;
+  color: white;
+
+  padding: 18px;
+
+  border-radius: 12px;
+
+  font-size: 18px;
+
+  cursor: pointer;
+}
+
+/* LIMPAR */
+
+.clear-cart{
+  width: fit-content;
+
+  border: 1px solid red;
+
+  color: red;
+
+  background: white;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
