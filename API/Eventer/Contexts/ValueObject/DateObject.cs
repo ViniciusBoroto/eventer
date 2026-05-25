@@ -6,7 +6,7 @@
 
         public DateObject(DateTime date)
         {
-            if (date < now) throw new Exception($"Date must be past current date ({now})");
+            if (date < now) throw new Exception($"Date cannot be in the past (now: {now})");
         }
     }
 }

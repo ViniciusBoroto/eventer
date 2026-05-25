@@ -6,7 +6,8 @@
 
         public BaseStringObject(string value)
         {
-            if(String.IsNullOrEmpty(value)) throw new Exception("event's data must be filled");
+            if (string.IsNullOrWhiteSpace(value)) throw new Exception("event's data must be filled");
+            Value = value;
         }
     }
 }

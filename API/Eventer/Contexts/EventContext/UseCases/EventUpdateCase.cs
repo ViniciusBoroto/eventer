@@ -22,19 +22,18 @@ namespace Eventer.Contexts.EventContext.UseCases
             {
                 if (eventToUpdate == null) throw new Exception("event is null!");
 
-                if (eventToUpdate.Price <= 0.0m) throw new Exception("price is negative!");
+                if (updateEventRequest.Price < 0.0m) throw new Exception("price cannot be negative!");
 
-                if (eventToUpdate.Capacity <= 0) throw new Exception("capacity must be positive");
+                if (updateEventRequest.Capacity <= 0) throw new Exception("capacity must be positive");
 
                 new BaseStringObject(updateEventRequest.Name);
-                new BaseStringObject(eventToUpdate.Description);
+                new BaseStringObject(updateEventRequest.Description);
                 new BaseStringObject(updateEventRequest.Location);
-                new BaseStringObject(updateEventRequest.Date.ToString());
                 new DateObject(updateEventRequest.Date);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                throw;
             }
 
             eventToUpdate.Update(
@@ -46,7 +45,7 @@ namespace Eventer.Contexts.EventContext.UseCases
                 updateEventRequest.Location
             );
 
-            _eventRepository.Update(updateEventRequest);
+            _eventRepository.Update(eventToUpdate);
         }
     }
 }

@@ -51,17 +51,17 @@ namespace Eventer.Contexts.EventContext.Repositories
             }).ToList();
         }
 
-        public void Update(UpdateEventRequest updateEvent)
+        public void Update(Event eventEntity)
         {
-            var eventSchema = _context.Events.FirstOrDefault(e => e.Id == updateEvent.Id);
+            var eventSchema = _context.Events.FirstOrDefault(e => e.Id == eventEntity.Id);
             if (eventSchema == null) throw new Exception("could not find event!");
 
-            eventSchema.Name = updateEvent.Name;
-            eventSchema.Description = updateEvent.Description;
-            eventSchema.Price = updateEvent.Price;
-            eventSchema.Capacity = updateEvent.Capacity;
-            eventSchema.Date = updateEvent.Date;
-            eventSchema.Location = updateEvent.Location;
+            eventSchema.Name = eventEntity.Name;
+            eventSchema.Description = eventEntity.Description;
+            eventSchema.Price = eventEntity.Price;
+            eventSchema.Capacity = eventEntity.Capacity;
+            eventSchema.Date = eventEntity.Date;
+            eventSchema.Location = eventEntity.Location;
 
             _context.SaveChanges();
         }
