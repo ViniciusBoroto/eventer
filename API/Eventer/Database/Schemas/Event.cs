@@ -8,6 +8,7 @@ namespace Eventer.Database.Schemas
         public decimal Price { get; set; }
         public int Capacity { get; set; }
         public DateTime Date { get; set; }
-        public string Location { get; set; } = "";   
+        public string Location { get; set; } = "";
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

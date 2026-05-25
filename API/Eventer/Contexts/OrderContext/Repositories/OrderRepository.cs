@@ -1,6 +1,7 @@
 using Eventer.Contexts.OrderContext.Entities;
 using Eventer.Contexts.OrderContext.Interfaces;
 using Eventer.Database;
+using Microsoft.EntityFrameworkCore;
 using Schema = Eventer.Database.Schemas;
 
 namespace Eventer.Contexts.OrderContext.Repositories
@@ -70,6 +71,28 @@ namespace Eventer.Contexts.OrderContext.Repositories
             _context.SaveChanges();
         }
 
-       
+        public Event FindWithOrdersById(int id)
+        {
+            var eventSchema = _context.Events.Include(e => e.Orders).FirstOrDefault(e => e.Id == id);
+            if (eventSchema == null) throw new Exception("could not find event!");
+            return new Event
+            {
+                Id = eventSchema.Id,
+                Price = eventSchema.Price,
+                Capacity = eventSchema.Capacity,
+                Date = eventSchema.Date,
+                Orders = eventSchema.Orders.Select(o => new Order
+                {
+                    Id = o.Id,
+                    EventId = o.EventId,
+                    TicketId = o.TicketId,
+                    CreatedAt = o.CreatedAt,
+                    ConfirmedAt = o.ConfirmedAt,
+                    CanceledAt = o.CanceledAt
+                }).ToList()
+            };
+        }
+
+
     }
 }

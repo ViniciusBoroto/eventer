@@ -19,6 +19,11 @@ namespace Eventer.Database
             modelBuilder.Entity<Order>().ToTable("Orders");
             modelBuilder.Entity<Ticket>().ToTable("Tickets");
 
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Orders)
+                .WithOne(o => o.Event)
+                .HasForeignKey(o => o.EventId);
+
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Event)
                 .WithMany()

@@ -23,11 +23,12 @@ namespace Eventer.Contexts.OrderContext.UseCases
             {
                 throw new Exception(e.Message);
             }
+            var eventInDb = _orderRepository.FindWithOrdersById(createOrderRequest.EventId);
+            if (eventInDb == null) throw new Exception("could not find event!");
 
-            var newOrder = new Order
-            {
-                EventId = createOrderRequest.EventId
-            };
+            if (!eventInDb.IsAvailable()) throw new Exception("event is sold out!");
+
+            var newOrder = new Order(0, createOrderRequest.EventId);
 
             _orderRepository.Add(newOrder);
         }
