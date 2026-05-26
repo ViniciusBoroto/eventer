@@ -15,11 +15,6 @@ namespace Eventer.Contexts.EventContext.Repositories
             _context = context;
         }
 
-        public bool IsInDatabase(int id)
-        {
-            return _context.Events.Any(e => e.Id == id);
-        }
-
         public Event FindById(int id)
         {
             var eventSchema = _context.Events.FirstOrDefault(e => e.Id == id);
