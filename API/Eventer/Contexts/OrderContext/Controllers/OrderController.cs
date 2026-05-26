@@ -55,10 +55,10 @@ namespace Eventer.Contexts.OrderContext.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/pay")]
-        public IActionResult Pay(int id)
+        [HttpPost("{payRequest.OrderId}/pay")]
+        public IActionResult Pay(PayOrderRequest payRequest)
         {
-            try { _payCase.Execute(id); }
+            try { _payCase.Execute(payRequest); }
             catch (Exception e) { return BadRequest(e.Message); }
 
             return Ok();

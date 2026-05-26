@@ -15,11 +15,6 @@ namespace Eventer.Contexts.OrderContext.Repositories
             _context = context;
         }
 
-        public bool IsInDatabase(int id)
-        {
-            return _context.Orders.Any(o => o.Id == id);
-        }
-
         public Order FindById(int id)
         {
             var orderSchema = _context.Orders.FirstOrDefault(o => o.Id == id);
@@ -93,6 +88,9 @@ namespace Eventer.Contexts.OrderContext.Repositories
             };
         }
 
-
+        public void Update(Order order)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

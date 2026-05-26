@@ -25,8 +25,8 @@ namespace Eventer.Contexts.EventContext.Controllers
             EventDeleteCase deleteCase,
             EventCreateCase createCase,
             EventGetAllCase getAllCase,
-            EventGetByIdCase getByIdCase)
-        {
+            EventGetByIdCase getByIdCase
+        ) {
             _updateCase = updateCase;
             _deleteCase = deleteCase;
             _createCase = createCase;
