@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos atuais</title>
+  <link rel="stylesheet" href="../css/panel.css">
+</head>
+<body>
+  <header class="panel-header">
+    <div>
+      <p class="eyebrow">Painel Eventer</p>
+      <h1>Pedidos atuais</h1>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html">Catalogo</a>
+      <a href="manage_events.html">Eventos</a>
+    </nav>
+  </header>
+
+  <main class="panel-layout single-column">
+    <section class="panel-card">
+      <div class="section-head">
+        <h2>Lista de pedidos</h2>
+        <select id="orderFilter">
+          <option value="">Todos os status</option>
+          <option value="Pendente">Pendentes</option>
+          <option value="Pago">Pagos</option>
+          <option value="Cancelado">Cancelados</option>
+        </select>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Evento</th>
+              <th>Criado em</th>
+              <th>Status</th>
+              <th>Ticket</th>
+              <th>Pago em</th>
+              <th>Cancelado em</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody"></tbody>
+        </table>
+      </div>
+
+      <p class="feedback-message" id="ordersFeedback"></p>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/orders.js"></script>
+</body>
+</html>

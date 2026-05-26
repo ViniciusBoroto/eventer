@@ -31,7 +31,8 @@ namespace Eventer.Contexts.OrderContext.Repositories
                 EventId = orderSchema.EventId,
                 TicketId = orderSchema.TicketId,
                 CreatedAt = orderSchema.CreatedAt,
-                ConfirmedAt = orderSchema.ConfirmedAt
+                ConfirmedAt = orderSchema.ConfirmedAt,
+                CanceledAt = orderSchema.CanceledAt
             };
         }
 
@@ -43,7 +44,8 @@ namespace Eventer.Contexts.OrderContext.Repositories
                 EventId = o.EventId,
                 TicketId = o.TicketId,
                 CreatedAt = o.CreatedAt,
-                ConfirmedAt = o.ConfirmedAt
+                ConfirmedAt = o.ConfirmedAt,
+                CanceledAt = o.CanceledAt
             }).ToList();
         }
 
@@ -68,6 +70,38 @@ namespace Eventer.Contexts.OrderContext.Repositories
             if (existing == null) throw new Exception("could not find order to delete!");
 
             _context.Orders.Remove(existing);
+            _context.SaveChanges();
+        }
+
+        public void Pay(int id)
+        {
+            var existing = _context.Orders.FirstOrDefault(o => o.Id == id);
+            if (existing == null) throw new Exception("could not find order!");
+
+            if (existing.CanceledAt != null) throw new Exception("canceled orders cannot be paid!");
+            if (existing.ConfirmedAt != null) throw new Exception("order is already paid!");
+
+            var ticket = new Schema.Ticket
+            {
+                EventId = existing.EventId,
+                Code = $"EVT-{existing.EventId}-ORD-{existing.Id}-{Guid.NewGuid().ToString("N")[..8].ToUpperInvariant()}"
+            };
+
+            _context.Tickets.Add(ticket);
+            _context.SaveChanges();
+
+            existing.TicketId = ticket.Id;
+            existing.ConfirmedAt = DateTime.UtcNow;
+            _context.SaveChanges();
+        }
+
+        public void Cancel(int id)
+        {
+            var existing = _context.Orders.FirstOrDefault(o => o.Id == id);
+            if (existing == null) throw new Exception("could not find order!");
+            if (existing.CanceledAt != null) throw new Exception("order is already canceled!");
+
+            existing.CanceledAt = DateTime.UtcNow;
             _context.SaveChanges();
         }
 

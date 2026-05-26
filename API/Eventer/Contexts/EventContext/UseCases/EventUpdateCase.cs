@@ -28,6 +28,7 @@ namespace Eventer.Contexts.EventContext.UseCases
 
                 new BaseStringObject(updateEventRequest.Name);
                 new BaseStringObject(updateEventRequest.Description);
+                new BaseStringObject(updateEventRequest.PictureUrl);
                 new BaseStringObject(updateEventRequest.Location);
                 new DateObject(updateEventRequest.Date);
             }
@@ -39,6 +40,7 @@ namespace Eventer.Contexts.EventContext.UseCases
             eventToUpdate.Update(
                 updateEventRequest.Name,
                 updateEventRequest.Description,
+                updateEventRequest.PictureUrl,
                 updateEventRequest.Price,
                 updateEventRequest.Capacity,
                 updateEventRequest.Date,

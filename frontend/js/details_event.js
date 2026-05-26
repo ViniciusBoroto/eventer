@@ -1,152 +1,85 @@
-// PEGAR ID DA URL
+const params = new URLSearchParams(window.location.search);
+const eventId = Number(params.get("id"));
 
-const params =
-new URLSearchParams(window.location.search);
+const eventName = document.getElementById("eventName");
+const eventDate = document.getElementById("eventDate");
+const eventTime = document.getElementById("eventTime");
+const eventLocation = document.getElementById("eventLocation");
+const eventDescription = document.getElementById("eventDescription");
+const eventPrice = document.getElementById("eventPrice");
+const eventTickets = document.getElementById("eventTickets");
+const eventImage = document.getElementById("eventImage");
+const statusMessage = document.getElementById("statusMessage");
+const buyButton = document.getElementById("buyButton");
 
-const id = params.get("id");
+let currentEvent = null;
+let currentAvailability = 0;
 
+function setStatus(message, type = "") {
+  statusMessage.className = `status-message ${type}`.trim();
+  statusMessage.textContent = message;
+}
 
-// LISTA DE EVENTOS
+function updatePurchaseState() {
+  const soldOut = currentAvailability <= 0;
+  buyButton.disabled = soldOut || !currentEvent;
+  buyButton.textContent = soldOut ? "Ingressos esgotados" : "Comprar ingresso";
+}
 
-const eventos = [
-
-  {
-    Id: 1,
-
-    Name: "MC IG",
-
-    EventDate: "20 de Junho de 2026",
-
-    EventTime: "22:00",
-
-    Location: "Marília - SP",
-
-    Description: "Venha curtir o melhor do funk com MC IG, o fenômeno do momento! Com seus hits contagiantes e energia única, MC IG promete uma noite inesquecível de muita música e diversão. Não perca a chance de dançar ao som dos maiores sucessos do funk e se divertir com os amigos. Garanta já seu ingresso e prepare-se para uma experiência incrível com MC IG!",
-
-    Price: 100,
-
-    Capacity: 500,
-
-    AvailableTickets: 15,
-
-    Image: "../img/mcig.png"
-  },
-
-  {
-    Id: 2,
-
-    Name: "Show Anitta",
-
-    EventDate: "25 de Junho de 2026",
-
-    EventTime: "20:00",
-
-    Location: "Marília - SP",
-
-    Price: 180,
-
-    Capacity: 300,
-
-    AvailableTickets: 50,
-
-    Image: "../img/anitta.jpg"
-  },
-
-  {
-    Id: 3,
-
-    Name: "Show Marília Mendonça",
-
-    EventDate: "30 de Junho de 2026",
-
-    EventTime: "21:00",
-
-    Location: "Marília - SP",
-
-    Price: 150,
-
-    Capacity: 400,
-
-    AvailableTickets: 80,
-
-    Image: "../img/marilia.jpg"
+async function loadEventDetails() {
+  if (!Number.isInteger(eventId) || eventId <= 0) {
+    setStatus("Evento invalido.");
+    buyButton.disabled = true;
+    return;
   }
 
-];
+  try {
+    setStatus("Carregando detalhes do evento...");
 
+    const [event, orders] = await Promise.all([
+      EventerApi.fetchEventById(eventId),
+      EventerApi.fetchOrders()
+    ]);
 
-// BUSCAR EVENTO PELO ID
+    currentEvent = event;
+    const activeOrders = EventerApi.countActiveOrdersForEvent(orders, event.id);
+    currentAvailability = Math.max(event.capacity - activeOrders, 0);
 
-const evento = eventos.find(
-  e => e.Id == id
-);
+    const labels = EventerApi.splitDateTime(event.date);
 
+    eventName.textContent = event.name;
+    eventDate.textContent = labels.dateLabel;
+    eventTime.textContent = labels.timeLabel;
+    eventLocation.textContent = event.location || "Local a definir";
+    eventDescription.textContent = event.description || "Descricao indisponivel.";
+    eventPrice.textContent = EventerApi.formatCurrency(event.price);
+    eventTickets.textContent = `${currentAvailability} de ${event.capacity} ingressos disponiveis`;
+    eventImage.src = event.pictureUrl;
+    eventImage.alt = `Imagem do evento ${event.name}`;
 
-// PREENCHER TELA
+    updatePurchaseState();
+    setStatus("");
+  } catch (error) {
+    setStatus(`Falha ao carregar o evento: ${error.message}`, "error");
+    buyButton.disabled = true;
+  }
+}
 
-document.getElementById("eventName")
-.innerText = evento.Name;
-
-document.getElementById("eventDate")
-.innerText = evento.EventDate;
-
-document.getElementById("eventTime")
-.innerText = evento.EventTime;
-
-document.getElementById("eventLocation")
-.innerText = evento.Location;
-
-document.getElementById("eventDescription")
-.innerText = evento.Description;
-
-document.getElementById("eventPrice")
-.innerText = `R$ ${evento.Price},00`;
-
-document.getElementById("eventTickets")
-.innerText =
-`${evento.AvailableTickets} / ${evento.Capacity}`;
-
-document.getElementById("eventImage")
-.src = evento.Image;
-
-
-// QUANTIDADE DE INGRESSOS
-
-let quantity = 1;
-
-const quantityText =
-document.getElementById("quantity");
-
-const plusBtn =
-document.getElementById("plusBtn");
-
-const minusBtn =
-document.getElementById("minusBtn");
-
-
-// AUMENTAR
-
-plusBtn.addEventListener("click", () => {
-
-  if(quantity < evento.AvailableTickets){
-
-    quantity++;
-
-    quantityText.innerText = quantity;
+buyButton.addEventListener("click", async () => {
+  if (!currentEvent || currentAvailability <= 0) {
+    return;
   }
 
+  try {
+    buyButton.disabled = true;
+    setStatus("Criando pedido...");
+    await EventerApi.createOrder(currentEvent.id);
+    await loadEventDetails();
+    setStatus("Pedido criado com sucesso. Seu ingresso foi reservado.", "success");
+  } catch (error) {
+    setStatus(`Nao foi possivel criar o pedido: ${error.message}`, "error");
+    updatePurchaseState();
+  }
 });
 
-
-// DIMINUIR
-
-minusBtn.addEventListener("click", () => {
-
-  if(quantity > 1){
-
-    quantity--;
-
-    quantityText.innerText = quantity;
-  }
-
-});
+loadEventDetails();

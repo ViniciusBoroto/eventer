@@ -19,9 +19,12 @@
 <body>
 
   <header class="navbar">
-    <a class="back-button" href="index.html">
-      <i class="fa-solid fa-arrow-left"></i> Voltar
-    </a>
+    <div class="top-actions">
+      <a class="back-button" href="index.html">
+        <i class="fa-solid fa-arrow-left"></i> Voltar
+      </a>
+      <a class="orders-link" href="orders.html">Ver pedidos</a>
+    </div>
   </header>
 
   <main class="event-container">
@@ -48,10 +51,10 @@
 
     <p id="eventTickets"></p>
 
-    <button class="buy-button">
+    <p class="status-message" id="statusMessage"></p>
 
+    <button class="buy-button" id="buyButton" type="button">
       Comprar Ingresso
-
     </button>
 
   </div>
@@ -61,6 +64,7 @@
 
 </body>
 
+<script src="../js/api.js"></script>
 <script src="../js/details_event.js"></script>
 
 </html>

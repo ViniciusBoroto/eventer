@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciar eventos</title>
+  <link rel="stylesheet" href="../css/panel.css">
+</head>
+<body>
+  <header class="panel-header">
+    <div>
+      <p class="eyebrow">Painel Eventer</p>
+      <h1>Gerenciar eventos</h1>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html">Catalogo</a>
+      <a href="orders.html">Pedidos</a>
+    </nav>
+  </header>
+
+  <main class="panel-layout">
+    <section class="panel-card form-card">
+      <h2 id="formTitle">Criar evento</h2>
+      <form id="eventForm" class="form-grid">
+        <input id="eventId" type="hidden">
+
+        <label>
+          Nome
+          <input id="name" type="text" required>
+        </label>
+
+        <label>
+          Local
+          <input id="location" type="text" required>
+        </label>
+
+        <label class="full-width">
+          Descricao
+          <textarea id="description" rows="5" required></textarea>
+        </label>
+
+        <label class="full-width">
+          URL da imagem
+          <input id="pictureUrl" type="url" required>
+        </label>
+
+        <label>
+          Preco
+          <input id="price" type="number" min="0" step="0.01" required>
+        </label>
+
+        <label>
+          Capacidade
+          <input id="capacity" type="number" min="1" step="1" required>
+        </label>
+
+        <label>
+          Data e hora
+          <input id="date" type="datetime-local" required>
+        </label>
+
+        <div class="form-actions full-width">
+          <button id="submitButton" type="submit" class="primary-button">Salvar evento</button>
+          <button id="cancelEditButton" type="button" class="secondary-button" hidden>Cancelar edicao</button>
+        </div>
+      </form>
+      <p class="feedback-message" id="feedbackMessage"></p>
+    </section>
+
+    <section class="panel-card">
+      <div class="section-head">
+        <h2>Eventos cadastrados</h2>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Local</th>
+              <th>Data</th>
+              <th>Preco</th>
+              <th>Capacidade</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/manage_events.js"></script>
+</body>
+</html>

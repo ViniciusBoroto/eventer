@@ -24,6 +24,7 @@ namespace Eventer.Contexts.EventContext.UseCases
 
                 new BaseStringObject(createEventRequest.Name);
                 new BaseStringObject(createEventRequest.Description);
+                new BaseStringObject(createEventRequest.PictureUrl);
                 new BaseStringObject(createEventRequest.Location);
                 new BaseStringObject(createEventRequest.Date.ToString());
             }
@@ -36,6 +37,7 @@ namespace Eventer.Contexts.EventContext.UseCases
             {
                 Name = createEventRequest.Name,
                 Description = createEventRequest.Description,
+                PictureUrl = createEventRequest.PictureUrl,
                 Price = createEventRequest.Price,
                 Capacity = createEventRequest.Capacity,
                 Date = createEventRequest.Date,

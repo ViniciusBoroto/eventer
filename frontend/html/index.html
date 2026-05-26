@@ -11,57 +11,42 @@
   <link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-
-</head>
 <body>
     <header class="navbar">
         <div class="logo">
             INGRESSOS.COM
         </div>
-
-        <div class="nav-right">
-
-            <div class="cart">
-                <i class="fa-solid" fa-cart-shopping></i>
-                Carrinho (2)
-            </div>
-
-            <div class="profile">
-                <i class="fa-solid fa-circle-user"></i>
-            </div>
-        </div>
+        <nav class="nav-links">
+            <a href="manage_events.html">Gerenciar eventos</a>
+            <a href="orders.html">Pedidos</a>
+            <div class="nav-badge">Conectado a API</div>
+        </nav>
     </header>
 
     <main class="container">
 
         <section class="search-section">
             <input type="text"
+            id="searchInput"
             placeholder="Buscar evento, artista ou local...">
 
-            <select>
-                <option>Cidade</option>
-                <option>Marília</option>
-                <option>São Paulo</option>
+            <select id="cityFilter">
+                <option value="">Todas as cidades</option>
             </select>
-
-            <select>
-                <option>Todos os tipos</option>
-                <option>Show</option>
-                <option>Festival</option>
-                <option>Stand up</option>
-            </select>
-
         </section>
 
         <h2 class="section-title">
-            Eventos em <span>Marília - SP</span>
+            Eventos em <span id="resultsTitle">todos os locais</span>
         </h2>
 
         <section class="events-grid" id="eventsGrid">
 
-</section>
+        </section>
+
+        <p class="feedback-message" id="feedbackMessage"></p>
 
     </main>
+    <script src="../js/api.js"></script>
     <script src="../js/eventos.js"></script>
 
 </body>
