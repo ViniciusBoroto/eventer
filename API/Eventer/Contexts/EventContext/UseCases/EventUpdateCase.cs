@@ -1,7 +1,6 @@
 ﻿using Eventer.Contexts.EventContext.DTOs.Requests;
 using Eventer.Contexts.EventContext.Interfaces;
 using Eventer.Contexts.EventContext.Entities;
-using Eventer.Contexts.ValueObject;
 
 namespace Eventer.Contexts.EventContext.UseCases
 {
@@ -16,26 +15,8 @@ namespace Eventer.Contexts.EventContext.UseCases
 
         public void Execute(UpdateEventRequest updateEventRequest)
         {
-            Event eventToUpdate = _eventRepository.FindById(updateEventRequest.Id);
-
-            try
-            {
-                if (eventToUpdate == null) throw new Exception("event is null!");
-
-                if (updateEventRequest.Price < 0.0m) throw new Exception("price cannot be negative!");
-
-                if (updateEventRequest.Capacity <= 0) throw new Exception("capacity must be positive");
-
-                new BaseStringObject(updateEventRequest.Name);
-                new BaseStringObject(updateEventRequest.Description);
-                new BaseStringObject(updateEventRequest.PictureUrl);
-                new BaseStringObject(updateEventRequest.Location);
-                new DateObject(updateEventRequest.Date);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var eventToUpdate = _eventRepository.FindById(updateEventRequest.Id)
+                ?? throw new Exception("event is null!");
 
             eventToUpdate.Update(
                 updateEventRequest.Name,
