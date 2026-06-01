@@ -15,7 +15,7 @@ namespace Eventer.Contexts.OrderContext.UseCases
         {
             try
             {
-                if (!_orderRepository.IsInDatabase(id)) throw new Exception("could not find order!");
+                if (_orderRepository.FindById(id) == null) throw new Exception("could not find order!");
 
                 _orderRepository.Delete(id);
             }

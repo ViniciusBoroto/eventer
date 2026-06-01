@@ -1,4 +1,7 @@
+using Eventer.Contexts.OrderContext.DTOs.Requests;
+using Eventer.Contexts.OrderContext.Entities;
 using Eventer.Contexts.OrderContext.Interfaces;
+using Eventer.Contexts.ValueObject;
 
 namespace Eventer.Contexts.OrderContext.UseCases
 {
@@ -11,13 +14,28 @@ namespace Eventer.Contexts.OrderContext.UseCases
             _orderRepository = orderRepository;
         }
 
-        public void Execute(int orderId)
+        public void Execute(PayOrderRequest request)
         {
             try
             {
-                if (!_orderRepository.IsInDatabase(orderId)) throw new Exception("could not find order!");
+                Order order = _orderRepository.FindById(request.OrderId);
 
-                _orderRepository.Pay(orderId);
+                new NullObject<Order>(order);
+
+                Event orderEvent = _orderRepository.FindEventWithOrderById(request.EventId);
+
+                new NullObject<Event>(orderEvent);
+
+                Ticket t = new Ticket
+                {
+                    Code = "7f851",
+                    Event = orderEvent,
+                    Order = order
+                };
+
+                order.ConfirmedAt = DateTime.Now;
+                _orderRepository.Update(t.Order);
+                _orderRepository.Pay(t.Order.Id);
             }
             catch (Exception e)
             {

@@ -16,4 +16,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contexts\TicketContext\DTOs\Requests\" />
+  </ItemGroup>
+
 </Project>

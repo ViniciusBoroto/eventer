@@ -15,11 +15,6 @@ namespace Eventer.Contexts.OrderContext.Repositories
             _context = context;
         }
 
-        public bool IsInDatabase(int id)
-        {
-            return _context.Orders.Any(o => o.Id == id);
-        }
-
         public Order FindById(int id)
         {
             var orderSchema = _context.Orders.FirstOrDefault(o => o.Id == id);
@@ -105,7 +100,7 @@ namespace Eventer.Contexts.OrderContext.Repositories
             _context.SaveChanges();
         }
 
-        public Event FindWithOrdersById(int id)
+        public Event FindEventWithOrderById(int id)
         {
             var eventSchema = _context.Events.Include(e => e.Orders).FirstOrDefault(e => e.Id == id);
             if (eventSchema == null) throw new Exception("could not find event!");
@@ -127,6 +122,14 @@ namespace Eventer.Contexts.OrderContext.Repositories
             };
         }
 
+        public void Update(Order order)
+        {
+            throw new NotImplementedException();
+        }
 
+        public bool IsInDatabase(int id)
+        {
+            return _context.Orders.Any(o => o.Id == id);
+        }
     }
 }
