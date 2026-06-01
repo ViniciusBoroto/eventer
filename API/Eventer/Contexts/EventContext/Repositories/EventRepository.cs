@@ -20,32 +20,30 @@ namespace Eventer.Contexts.EventContext.Repositories
             var eventSchema = _context.Events.FirstOrDefault(e => e.Id == id);
             if (eventSchema == null) throw new Exception("could not find event!");
 
-            return new Event
-            {
-                Id = eventSchema.Id,
-                Name = eventSchema.Name,
-                Description = eventSchema.Description,
-                PictureUrl = eventSchema.PictureUrl,
-                Price = eventSchema.Price,
-                Capacity = eventSchema.Capacity,
-                Date = eventSchema.Date,
-                Location = eventSchema.Location
-            };
+            return new Event(
+                eventSchema.Id,
+                eventSchema.Name,
+                eventSchema.Description,
+                eventSchema.PictureUrl,
+                eventSchema.Price,
+                eventSchema.Capacity,
+                eventSchema.Date,
+                eventSchema.Location
+            );
         }
 
         public List<Event> GetAll()
         {
-            return _context.Events.Select(e => new Event
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Description = e.Description,
-                PictureUrl = e.PictureUrl,
-                Price = e.Price,
-                Capacity = e.Capacity,
-                Date = e.Date,
-                Location = e.Location
-            }).ToList();
+            return _context.Events.Select(e => new Event(
+                e.Id,
+                e.Name,
+                e.Description,
+                e.PictureUrl,
+                e.Price,
+                e.Capacity,
+                e.Date,
+                e.Location
+            )).ToList();
         }
 
         public void Update(Event eventEntity)
@@ -55,6 +53,7 @@ namespace Eventer.Contexts.EventContext.Repositories
 
             eventSchema.Name = eventEntity.Name;
             eventSchema.Description = eventEntity.Description;
+            eventSchema.PictureUrl = eventEntity.PictureUrl;
             eventSchema.Price = eventEntity.Price;
             eventSchema.Capacity = eventEntity.Capacity;
             eventSchema.Date = eventEntity.Date;
@@ -79,7 +78,6 @@ namespace Eventer.Contexts.EventContext.Repositories
             _context.Events.Add(eventSchema);
             _context.SaveChanges();
 
-            // Update the entity with the new ID
             eventEntity.Id = eventSchema.Id;
         }
 
