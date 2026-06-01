@@ -1,4 +1,4 @@
-﻿namespace Eventer.Contexts.OrderContext.ValueObject
+﻿namespace Eventer.Domain.ValueObject
 {
     public class DateObject
     {

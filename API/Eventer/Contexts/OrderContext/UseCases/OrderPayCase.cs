@@ -1,6 +1,7 @@
 using Eventer.Contexts.OrderContext.DTOs.Requests;
 using Eventer.Contexts.OrderContext.Entities;
 using Eventer.Contexts.OrderContext.Interfaces;
+using Eventer.Contexts.TicketContext.Interfaces;
 using Eventer.Contexts.ValueObject;
 
 namespace Eventer.Contexts.OrderContext.UseCases
@@ -8,10 +9,12 @@ namespace Eventer.Contexts.OrderContext.UseCases
     public class OrderPayCase
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly ITicketRepository _ticketRepository;
 
-        public OrderPayCase(IOrderRepository orderRepository)
+        public OrderPayCase(IOrderRepository orderRepository, ITicketRepository ticketRepository)
         {
             _orderRepository = orderRepository;
+            _ticketRepository = ticketRepository;
         }
 
         public void Execute(PayOrderRequest request)
@@ -26,16 +29,12 @@ namespace Eventer.Contexts.OrderContext.UseCases
 
                 new NullObject<Event>(orderEvent);
 
-                Ticket t = new Ticket
-                {
-                    Code = "7f851",
-                    Event = orderEvent,
-                    Order = order
-                };
+                Ticket t = new Ticket { EventId = request.EventId };
+                _ticketRepository.Add(t);
+                order.Pay();
+                order.AddTicket(t.Id);
 
-                order.ConfirmedAt = DateTime.Now;
-                _orderRepository.Update(t.Order);
-                _orderRepository.Pay(t.Order.Id);
+                _orderRepository.Update(order);
             }
             catch (Exception e)
             {

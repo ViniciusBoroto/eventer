@@ -1,4 +1,4 @@
-﻿namespace Eventer.Contexts.EventContext.ValueObject
+﻿namespace Eventer.Domain.ValueObject
 {
     public class BaseStringObject
     {

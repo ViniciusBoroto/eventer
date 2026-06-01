@@ -5,6 +5,8 @@ using Eventer.Contexts.EventContext.UseCases;
 using Eventer.Contexts.OrderContext.Interfaces;
 using Eventer.Contexts.OrderContext.Repositories;
 using Eventer.Contexts.OrderContext.UseCases;
+using Eventer.Contexts.TicketContext.Interfaces;
+using Eventer.Contexts.TicketContext.Repositories;
 using Eventer.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +35,7 @@ void AddToContainer(WebApplicationBuilder b)
     b.Services.AddScoped<EventGetByIdCase>();
 
     b.Services.AddScoped<IOrderRepository, OrderRepository>();
+    b.Services.AddScoped<ITicketRepository, TicketRepository>();
     b.Services.AddScoped<OrderDeleteCase>();
     b.Services.AddScoped<OrderCreateCase>();
     b.Services.AddScoped<OrderGetAllCase>();

@@ -21,6 +21,15 @@ namespace Eventer.Contexts.OrderContext.Entities
         {
             return CanceledAt != null;
         }
+
+        internal void Pay()
+        {
+            ConfirmedAt = DateTime.Now;
+        }
+        internal void AddTicket(int ticketId)
+        {
+            TicketId = ticketId;
+        }
     }
 
 

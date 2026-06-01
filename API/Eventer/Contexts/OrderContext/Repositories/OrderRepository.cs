@@ -124,7 +124,16 @@ namespace Eventer.Contexts.OrderContext.Repositories
 
         public void Update(Order order)
         {
-            throw new NotImplementedException();
+            var existing = _context.Orders.FirstOrDefault(o => o.Id == order.Id);
+            if (existing == null) throw new Exception("could not find order!");
+
+            existing.EventId = order.EventId;
+            existing.TicketId = order.TicketId;
+            existing.CreatedAt = order.CreatedAt;
+            existing.ConfirmedAt = order.ConfirmedAt;
+            existing.CanceledAt = order.CanceledAt;
+
+            _context.SaveChanges();
         }
 
         public bool IsInDatabase(int id)

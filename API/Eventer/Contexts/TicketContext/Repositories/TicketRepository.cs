@@ -15,10 +15,16 @@ namespace Eventer.Contexts.TicketContext.Repositories
             _context = context;
         }
 
-        public void Add(Ticket ticket)
+        public void Add(OrderContext.Entities.Ticket domainTicket)
         {
-            if (IsInDatabase(ticket.Id)) throw new Exception("ticket already exitst");
-            _context.Tickets.Add(ticket);
+            var schemaTicket = new Ticket
+            {
+                EventId = domainTicket.EventId,
+                Code = domainTicket.Code
+            };
+            _context.Tickets.Add(schemaTicket);
+            _context.SaveChanges();
+            domainTicket.Id = schemaTicket.Id;
         }
 
         public void Delete(int id)

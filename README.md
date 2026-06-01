@@ -16,3 +16,7 @@ Projeto para a atividade da P2 do Bacharelado de Ciências da Computação (BCC/
 - C#
 
 ### Frontend
+
+## Diagrama
+
+![MVP Architecture](docs/diagrams/mvp-arch.drawio.png)
