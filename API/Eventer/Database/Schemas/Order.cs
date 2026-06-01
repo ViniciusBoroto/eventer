@@ -9,7 +9,7 @@ namespace Eventer.Database.Schemas
     {
         public int Id { get; set; }
         public int EventId { get; set; }
-        public Event Event { get; set; }
+        public Event Event { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ConfirmedAt { get; set; }
         public DateTime? CanceledAt { get; set; }

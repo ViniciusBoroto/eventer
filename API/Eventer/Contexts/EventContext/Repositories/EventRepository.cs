@@ -25,6 +25,7 @@ namespace Eventer.Contexts.EventContext.Repositories
                 Id = eventSchema.Id,
                 Name = eventSchema.Name,
                 Description = eventSchema.Description,
+                PictureUrl = eventSchema.PictureUrl,
                 Price = eventSchema.Price,
                 Capacity = eventSchema.Capacity,
                 Date = eventSchema.Date,
@@ -39,6 +40,7 @@ namespace Eventer.Contexts.EventContext.Repositories
                 Id = e.Id,
                 Name = e.Name,
                 Description = e.Description,
+                PictureUrl = e.PictureUrl,
                 Price = e.Price,
                 Capacity = e.Capacity,
                 Date = e.Date,
@@ -67,6 +69,7 @@ namespace Eventer.Contexts.EventContext.Repositories
             {
                 Name = eventEntity.Name,
                 Description = eventEntity.Description,
+                PictureUrl = eventEntity.PictureUrl,
                 Price = eventEntity.Price,
                 Capacity = eventEntity.Capacity,
                 Date = eventEntity.Date,
@@ -90,4 +93,3 @@ namespace Eventer.Contexts.EventContext.Repositories
         }
     }
 }
-

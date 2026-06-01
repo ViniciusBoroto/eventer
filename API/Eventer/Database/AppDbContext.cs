@@ -20,13 +20,12 @@ namespace Eventer.Database
             modelBuilder.Entity<Ticket>().ToTable("Tickets");
 
             modelBuilder.Entity<Event>()
+                .Property(e => e.PictureUrl)
+                .IsRequired();
+
+            modelBuilder.Entity<Event>()
                 .HasMany(e => e.Orders)
                 .WithOne(o => o.Event)
-                .HasForeignKey(o => o.EventId);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Event)
-                .WithMany()
                 .HasForeignKey(o => o.EventId);
 
             modelBuilder.Entity<Order>()

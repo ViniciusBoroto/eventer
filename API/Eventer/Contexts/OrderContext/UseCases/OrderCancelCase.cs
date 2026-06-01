@@ -13,7 +13,16 @@ namespace Eventer.Contexts.OrderContext.UseCases
 
         public void Execute(int orderId)
         {
-            // TODO
+            try
+            {
+                if (!_orderRepository.IsInDatabase(orderId)) throw new Exception("could not find order!");
+
+                _orderRepository.Cancel(orderId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

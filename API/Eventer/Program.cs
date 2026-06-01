@@ -12,6 +12,15 @@ void AddToContainer(WebApplicationBuilder b)
 {
     b.Services.AddOpenApi();
     b.Services.AddControllers();
+    b.Services.AddCors(options =>
+    {
+        options.AddPolicy("Frontend", policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
     
     b.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(b.Configuration.GetConnectionString("DefaultConnection")));
@@ -39,8 +48,11 @@ void ConfigureRequestPipeline(WebApplication app)
         app.MapOpenApi();
         app.UseSwaggerUI(opt => opt.SwaggerEndpoint("/openapi/v1.json", "API v1"));
     }
-
-    app.UseHttpsRedirection();
+    else
+    {
+        app.UseHttpsRedirection();
+    }
+    app.UseCors("Frontend");
 
     app.MapControllers();
 }
