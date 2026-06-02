@@ -21,6 +21,25 @@
   <main class="panel-layout single-column">
     <section class="panel-card">
       <div class="section-head">
+        <h2>Consultar pedido por ID</h2>
+        <button type="button" class="secondary-button" id="reloadOrdersButton">Recarregar lista</button>
+      </div>
+
+      <form id="orderLookupForm" class="lookup-form">
+        <label>
+          Pedido ID
+          <input id="orderLookupId" type="number" min="1" step="1" required>
+        </label>
+        <button type="submit" class="primary-button">Buscar pedido</button>
+      </form>
+
+      <div id="orderLookupResult" class="lookup-result">
+        Use um ID valido para chamar <code>GET /order/{id}</code>.
+      </div>
+    </section>
+
+    <section class="panel-card">
+      <div class="section-head">
         <h2>Lista de pedidos</h2>
         <select id="orderFilter">
           <option value="">Todos os status</option>

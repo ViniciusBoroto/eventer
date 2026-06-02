@@ -98,6 +98,11 @@ async function fetchOrders() {
   return Array.isArray(orders) ? orders : [];
 }
 
+async function fetchOrderById(id) {
+  const order = await request(`/order/${id}`);
+  return order || null;
+}
+
 function countActiveOrdersForEvent(orders, eventId) {
   return orders.filter(order => order.eventId === eventId && !order.canceledAt).length;
 }
@@ -109,9 +114,10 @@ async function createOrder(eventId) {
   });
 }
 
-async function payOrder(orderId) {
+async function payOrder(orderId, eventId) {
   return request(`/order/${orderId}/pay`, {
-    method: "POST"
+    method: "POST",
+    body: JSON.stringify({ orderId, eventId })
   });
 }
 
@@ -180,6 +186,7 @@ window.EventerApi = {
   fetchEvents,
   fetchEventById,
   fetchOrders,
+  fetchOrderById,
   countActiveOrdersForEvent,
   createOrder,
   payOrder,

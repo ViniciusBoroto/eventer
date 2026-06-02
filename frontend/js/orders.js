@@ -1,6 +1,10 @@
 const ordersTableBody = document.getElementById("ordersTableBody");
 const orderFilter = document.getElementById("orderFilter");
 const ordersFeedback = document.getElementById("ordersFeedback");
+const orderLookupForm = document.getElementById("orderLookupForm");
+const orderLookupId = document.getElementById("orderLookupId");
+const orderLookupResult = document.getElementById("orderLookupResult");
+const reloadOrdersButton = document.getElementById("reloadOrdersButton");
 
 let currentOrders = [];
 let eventsById = new Map();
@@ -8,6 +12,36 @@ let eventsById = new Map();
 function setOrdersFeedback(message, type = "") {
   ordersFeedback.className = `feedback-message ${type}`.trim();
   ordersFeedback.textContent = message;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function renderLookupResult(order) {
+  if (!order) {
+    orderLookupResult.innerHTML = "Nenhum pedido carregado.";
+    return;
+  }
+
+  const event = eventsById.get(order.eventId);
+  const status = EventerApi.getOrderStatus(order);
+
+  orderLookupResult.innerHTML = `
+    <div class="lookup-summary">
+      <div><strong>Status:</strong> ${escapeHtml(status)}</div>
+      <div><strong>Evento:</strong> ${escapeHtml(event?.name || `#${order.eventId}`)}</div>
+      <div><strong>Criado em:</strong> ${escapeHtml(EventerApi.formatDate(order.createdAt))}</div>
+      <div><strong>Pago em:</strong> ${escapeHtml(order.confirmedAt ? EventerApi.formatDate(order.confirmedAt) : "-")}</div>
+      <div><strong>Cancelado em:</strong> ${escapeHtml(order.canceledAt ? EventerApi.formatDate(order.canceledAt) : "-")}</div>
+    </div>
+    <pre class="lookup-json">${escapeHtml(JSON.stringify(order, null, 2))}</pre>
+  `;
 }
 
 function getVisibleOrders() {
@@ -59,11 +93,12 @@ function renderOrders() {
     button.addEventListener("click", async () => {
       const orderId = Number(button.dataset.orderId);
       const action = button.dataset.action;
+      const linkedEvent = currentOrders.find(order => order.id === orderId);
 
       try {
         if (action === "pay") {
           setOrdersFeedback(`Confirmando pagamento do pedido #${orderId}...`);
-          await EventerApi.payOrder(orderId);
+          await EventerApi.payOrder(orderId, linkedEvent?.eventId);
           setOrdersFeedback("Pedido pago com sucesso.", "success");
         }
 
@@ -101,13 +136,42 @@ async function loadOrders() {
     currentOrders = orders.sort((left, right) => right.id - left.id);
     eventsById = new Map(events.map(event => [event.id, event]));
     renderOrders();
+    renderLookupResult(null);
   } catch (error) {
     currentOrders = [];
+    eventsById = new Map();
     renderOrders();
+    renderLookupResult(null);
     setOrdersFeedback(`Falha ao carregar pedidos: ${error.message}`, "error");
   }
 }
 
 orderFilter.addEventListener("change", renderOrders);
+
+orderLookupForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  try {
+    const orderId = Number(orderLookupId.value);
+    if (!Number.isInteger(orderId) || orderId <= 0) {
+      throw new Error("Informe um ID de pedido valido.");
+    }
+
+    setOrdersFeedback(`Carregando pedido #${orderId}...`);
+    const order = await EventerApi.fetchOrderById(orderId);
+
+    if (!order) {
+      throw new Error("Pedido nao encontrado.");
+    }
+
+    renderLookupResult(order);
+    setOrdersFeedback(`Pedido #${orderId} carregado.`, "success");
+  } catch (error) {
+    renderLookupResult(null);
+    setOrdersFeedback(`Falha ao buscar pedido: ${error.message}`, "error");
+  }
+});
+
+reloadOrdersButton.addEventListener("click", loadOrders);
 
 loadOrders();
