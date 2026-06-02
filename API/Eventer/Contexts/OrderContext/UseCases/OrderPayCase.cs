@@ -1,8 +1,8 @@
 using Eventer.Contexts.OrderContext.DTOs.Requests;
 using Eventer.Contexts.OrderContext.Entities;
 using Eventer.Contexts.OrderContext.Interfaces;
+using Eventer.Contexts.TicketContext.Entities;
 using Eventer.Contexts.TicketContext.Interfaces;
-using Eventer.Contexts.ValueObject;
 
 namespace Eventer.Contexts.OrderContext.UseCases
 {
@@ -22,15 +22,21 @@ namespace Eventer.Contexts.OrderContext.UseCases
             try
             {
                 Order order = _orderRepository.FindById(request.OrderId);
+                if (order == null)
+                {
+                    throw new Exception("Order not found");
+                }
 
-                new NullObject<Order>(order);
 
                 Event orderEvent = _orderRepository.FindEventWithOrderById(request.EventId);
 
-                new NullObject<Event>(orderEvent);
+                if (orderEvent == null)
+                {
+                    throw new Exception("Event not found");
+                }
 
-                Ticket t = new Ticket { EventId = request.EventId };
-                _ticketRepository.Add(t);
+                Ticket t = new Ticket(request.EventId);
+                _ticketRepository.Create(t);
                 order.Pay();
                 order.AddTicket(t.Id);
 

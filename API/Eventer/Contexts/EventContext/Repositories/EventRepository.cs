@@ -89,5 +89,10 @@ namespace Eventer.Contexts.EventContext.Repositories
             _context.Events.Remove(existing);
             _context.SaveChanges();
         }
+
+        public bool IsInDatabase(int id)
+        {
+            return _context.Events.Any(e => e.Id == id);
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Eventer.Contexts.EventContext.Interfaces
         public void Update(Event eventEntity);
         public void Add(Event eventEntity);
         public void Delete(int id);
+        public bool IsInDatabase(int id);
     }
 }
