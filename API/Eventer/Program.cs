@@ -5,8 +5,6 @@ using Eventer.Contexts.EventContext.UseCases;
 using Eventer.Contexts.OrderContext.Interfaces;
 using Eventer.Contexts.OrderContext.Repositories;
 using Eventer.Contexts.OrderContext.UseCases;
-using Eventer.Contexts.TicketContext.Interfaces;
-using Eventer.Contexts.TicketContext.Repositories;
 using Eventer.Database;
 using Microsoft.EntityFrameworkCore;
 

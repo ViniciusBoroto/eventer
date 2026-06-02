@@ -1,8 +1,6 @@
 using Eventer.Contexts.OrderContext.DTOs.Requests;
 using Eventer.Contexts.OrderContext.Entities;
 using Eventer.Contexts.OrderContext.Interfaces;
-using Eventer.Contexts.TicketContext.Entities;
-using Eventer.Contexts.TicketContext.Interfaces;
 
 namespace Eventer.Contexts.OrderContext.UseCases
 {
@@ -37,6 +35,7 @@ namespace Eventer.Contexts.OrderContext.UseCases
 
                 Ticket t = new Ticket(request.EventId);
                 _ticketRepository.Create(t);
+
                 order.Pay();
                 order.AddTicket(t.Id);
 

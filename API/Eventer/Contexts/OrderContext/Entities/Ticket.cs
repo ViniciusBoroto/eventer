@@ -10,8 +10,9 @@ namespace Eventer.Contexts.OrderContext.Entities
         public int Id { get; set; }
         public int EventId { get; set; }
         public string Code { get; set; }
-        public Ticket()
+        public Ticket(int eventId)
         {
+            EventId = eventId;
             Code = Guid.NewGuid().ToString().Substring(0, 5);
         }
     }
